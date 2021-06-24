@@ -113,7 +113,7 @@ eureka:
         healthcheck:
             enabled: true
         serviceUrl:
-            defaultZone: http://192.168.3.189:22102/eureka/
+            defaultZone: /eureka/
 
 
 
@@ -121,18 +121,18 @@ eureka:
 covmo:
     database:
         type: ${covmo.database.app.type:mysql}
-        host: ${covmo.database.app.host:192.168.1.17}
-        port: ${covmo.database.app.port:3309}
-        name: ${covmo.database.app.name:gt_covmo_app}
-        username: ${covmo.database.app.username:covmo}
-        password: ${covmo.database.app.password:covmo123}
+        host: ${covmo.database.app.host:}
+        port: ${covmo.database.app.port:}
+        name: ${covmo.database.app.name:}
+        username: ${covmo.database.app.username:}
+        password: ${covmo.database.app.password:}
         driver: com.mysql.jdbc.Driver
         uri: useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&verifyServerCertificate=false
         url: jdbc:mysql://${covmo.database.host}:${covmo.database.port}/${covmo.database.name}?${covmo.database.uri}
     pool:
         hikari:
-            username: ${covmo.database.username:covmo}
-            password: ${covmo.database.password:covmo123}
+            username: ${covmo.database.username:}
+            password: ${covmo.database.password:}
             driverClassName: ${covmo.database.driver}
             jdbcUrl: ${covmo.database.url}
             validationTimeout: 5000
