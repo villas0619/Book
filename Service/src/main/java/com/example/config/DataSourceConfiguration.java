@@ -17,13 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public class DataSourceConfiguration {
 
 	
-	@Value("${covmo.database.username:covmo}")
+	@Value("${covmo.database.username:}")
     private String gtCovMoAlmUserName;
 	
-	@Value("${covmo.database.password:covmo123}")
+	@Value("${covmo.database.password:}")
     private String gtCovMoAlmPassword;
 	
-	@Value("jdbc:mysql://${covmo.database.host:192.168.3.189}:${covmo.database.port:3309}/${covmo.database.name:gt_covmo_alarm}?${covmo.database.uri:useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&verifyServerCertificate=false}")
+	@Value("jdbc:mysql://${covmo.database.host:}:${covmo.database.port:}/${covmo.database.name:gt_covmo_alarm}?${covmo.database.uri:useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&verifyServerCertificate=false}")
     private String gtCovMoAlmUrl;
 	
 	@Value("${covmo.database.alm.driver:com.mysql.jdbc.Driver}")
