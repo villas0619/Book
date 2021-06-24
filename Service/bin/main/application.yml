@@ -1,0 +1,149 @@
+server:
+    #address: ${spring.cloud.client.ipAddress}
+    port: 28989
+    tomcat:
+        basedir: ${covmo.tomcat.basedir:/opt/covmo/ui/tmp}
+        uri-encoding: ${covmo.global.sys.encoding.charset:UTF-8}
+    error: 
+        whitelabel: 
+            enabled: false
+
+spring:
+    profiles: 
+        active: default
+    application:
+        name: service
+    http:
+        multipart:
+            location: ${covmo.http.multipart.location:/opt/covmo/ui/tmp}
+            max-file-size: 25600MB
+            max-request-size: 25600MB
+        encoding:
+            enabled: true
+            charset: ${covmo.global.sys.encoding.charset:UTF-8}
+            force: true
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        serialization:
+            indent_output: true
+    sleuth:
+        enabled: true
+        sampler:
+            percentage: 1.0
+        web:
+            skipPattern: (^cleanup.*|.*favicon.*)
+
+
+security:
+    basic:
+        enabled: false
+        path: ${management.context-path}/**
+    user:
+        name: ${covmo.global.security.user.name:admin}
+        password: ${covmo.global.security.user.password:admin}
+        role: ${covmo.global.security.user.role:ADMIN}
+
+management:
+    port: ${server.port}
+    context-path: /actuator
+    security:
+        enabled: true
+        roles: ${security.user.role}
+    endpoint:
+      prometheus:
+        enabled: true
+      health:
+        show-details: always
+        defaults:
+          enabled: true
+    jmx:
+        exposure:
+            include: "*"
+    shutdown:
+        enabled: false
+    metrics:
+        tags:
+            application: ${spring.application.name}:${spring.cloud.client.ipAddress:localhost}:${server.port}
+        distribution:
+            percentiles-histogram[http.server.requests]: true
+        export:
+            prometheus:
+                enabled: true
+                #pushgateway:
+                    #grouping-key:
+                        #instance: ${spring.cloud.client.ipAddress:localhost}:${server.port}
+            filter:
+                hystrix:
+                    latency:
+                        percentiles: 0.50,0.95,0.99
+
+
+ribbon:
+    ServerListRefreshInterval: 1000
+    
+feign:
+    hystrix:
+        enabled: false
+    compression:
+        request:
+            enabled: true
+            mime-types: text/xml,application/xml,application/json
+            min-request-size: 2048
+        response:
+            enabled: true
+
+eureka:
+    instance:
+        appname: ${spring.application.name}
+        preferIpAddress: true
+        instanceId: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instanceId:${server.port}}
+        statusPageUrlPath: ${management.context-path}/info
+        healthCheckUrlPath: ${management.context-path}/health
+        homePageUrlPath: /
+        leaseRenewalIntervalInSeconds: 1
+        leaseExpirationDurationInSeconds: 3
+        metadataMap:
+            user.name: ${security.user.name}
+            user.password: ${security.user.password}
+            management.context-path: ${management.context-path}
+    client:
+        registryFetchIntervalSeconds: 5
+        registerWithEureka: true
+        fetchRegistry: true
+        healthcheck:
+            enabled: true
+        serviceUrl:
+            defaultZone: http://192.168.3.189:22102/eureka/
+
+
+
+
+covmo:
+    database:
+        type: ${covmo.database.app.type:mysql}
+        host: ${covmo.database.app.host:192.168.1.17}
+        port: ${covmo.database.app.port:3309}
+        name: ${covmo.database.app.name:gt_covmo_app}
+        username: ${covmo.database.app.username:covmo}
+        password: ${covmo.database.app.password:covmo123}
+        driver: com.mysql.jdbc.Driver
+        uri: useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&verifyServerCertificate=false
+        url: jdbc:mysql://${covmo.database.host}:${covmo.database.port}/${covmo.database.name}?${covmo.database.uri}
+    pool:
+        hikari:
+            username: ${covmo.database.username:covmo}
+            password: ${covmo.database.password:covmo123}
+            driverClassName: ${covmo.database.driver}
+            jdbcUrl: ${covmo.database.url}
+            validationTimeout: 5000
+            connectionTimeout: 30000
+            idleTimeout: 60000
+            maxLifetime: 600000
+            maximumPoolSize: 10
+            minimumIdle: 5
+            autoCommit: false
+            readOnly: false
+            isolateInternalQueries: false
+            registerMbeans: false
+            allowPoolSuspension: false
+

@@ -1,0 +1,13 @@
+/********************Warning******************** 
+1. do NOT make any changes in this file, FAILURE may happen 
+2. if changes are require, please handle CAREFULLY 
+3. Please create a properties for EVEVRY library, do NOT assume full version release by third-party vendor, 
+         it is NOT guarantee 
+NOTE: This property file can share across Covmo 5 project 
+************************************************/
+
+ext
+{
+
+
+}
